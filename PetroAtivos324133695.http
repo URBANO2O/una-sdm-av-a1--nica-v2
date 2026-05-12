@@ -1,0 +1,6 @@
+@PetroAtivos324133695_HostAddress = http://localhost:5222
+
+GET {{PetroAtivos324133695_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
