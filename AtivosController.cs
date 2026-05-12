@@ -1,32 +1,36 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using PetroAtivos324133695.Data;
+using PetroAtivos324133695.Models;
 
 namespace PetroAtivos324133695.Controllers
 {
-    [Route("[controller]")]
-    public class AtivosController : Controller
+    [ApiController]
+    [Route("ativos")]
+    public class AtivosController : ControllerBase
     {
-        private readonly ILogger<AtivosController> _logger;
+        private readonly AppDbContext _context;
 
-        public AtivosController(ILogger<AtivosController> logger)
+        public AtivosController(AppDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public IActionResult Index()
+    
+        [HttpGet]
+        public ActionResult<List<Ativo>> Get()
         {
-            return View();
+            return Ok(_context.Ativos.ToList());
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        
+        [HttpPost]
+        public ActionResult Post(Ativo ativo)
         {
-            return View("Error!");
+            _context.Ativos.Add(ativo);
+
+            _context.SaveChanges();
+
+            return Ok(ativo);
         }
     }
-}
+}   
